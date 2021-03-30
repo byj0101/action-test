@@ -1,0 +1,45 @@
+name: Deployment # Workflow 이름
+on:
+  push: # release/* Branch에 push 이벤트가 일어났을 때 실행
+    branches:
+      - release/*
+
+jobs:
+  build:
+    name: deploy
+    runs-on: ubuntu-latest # Job 가상환경 인스턴스
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2 # 현재 repository 소스 받아오기
+      
+      - name: Check
+        run: echo "Check!"
+
+      - name: Cache node modules # yarn.lock의 변경을 기준으로 node modules 캐싱
+        uses: actions/cache@v2
+        id: node-cache
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - name: Install dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: echo "install" && yarn
+
+      - name: create env file
+        env:
+          QA_ENV_FILE: ${{ secrets.QA_ENV_FILE }}
+          PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
+        shell: bash
+        run: |
+          echo "QA ENV FILE : ", $QA_ENV_FILE
+          echo "PROD ENV FILE : ", $PROD_ENV_FILE
+
+            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID_PROD }} --paths '/*'
+          fi
