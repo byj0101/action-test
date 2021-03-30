@@ -38,5 +38,5 @@ jobs:
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
         shell: bash
         run: |
-          echo "QA ENV FILE : ", $QA_ENV_FILE
-          echo "PROD ENV FILE : ", $PROD_ENV_FILE
+          echo "QA ENV FILE : ", $QA_ENV_FILE.a
+          echo "PROD ENV FILE : ", $PROD_ENV_FILE.a
