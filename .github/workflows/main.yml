@@ -37,6 +37,11 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: yarn
 
+      - name: Create env files
+        id: dotenv
+        uses: ./.github/actions/dotenv-action
+        path: ./github/workflows/variables/.env.stag
+
       - name: Create env file
         env:
           STAG_ENV_FILE: ${{ secrets.STAG_ENV_FILE }}
@@ -51,6 +56,8 @@ jobs:
           if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
             echo "$PROD_ENV_FILE" > .env
           fi
+
+          echo "${steps.dotenv.outputs}"
 
       - name: Build
         run: ./node_modules/.bin/env-cmd -f .env yarn build
