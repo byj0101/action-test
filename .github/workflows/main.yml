@@ -39,4 +39,5 @@ jobs:
         shell: bash
         run: |
           echo "$QA_ENV_FILE" > .env
+          echo ${GITHUB_REF##*/}
           cat .env
