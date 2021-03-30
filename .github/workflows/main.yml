@@ -16,7 +16,7 @@ jobs:
         run: |
           echo "${GITHUB_REF##*/}"
           echo "${GITHUB_REF##/}"
-          echo "${GITHUB_REF*/}"
+          echo "${github.head_ref}"
 
       - name: Cache node modules # yarn.lock의 변경을 기준으로 node modules 캐싱
         uses: actions/cache@v2
