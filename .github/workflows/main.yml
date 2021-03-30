@@ -5,8 +5,8 @@ on:
       - release/*
 
 jobs:
-  deploy:
-    name: build
+  build-and-deploy:
+    name: build & deploy
     runs-on: ubuntu-latest # Job 가상환경 인스턴스
     steps:
       - name: Checkout Branch
@@ -27,14 +27,16 @@ jobs:
 
       - name: Install dependencies
         if: steps.node-cache.outputs.cache-hit != 'true'
-        run: echo "install" && yarn
+        run: yarn
 
       - name: Create env file
         env:
-          QA_ENV_FILE: ${{ secrets.QA_ENV_FILE }}
+          STAG_ENV_FILE: ${{ secrets.STAG_ENV_FILE }}
+          DEMO_ENV_FILE: ${{ secrets.DEMO_ENV_FILE }}
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
         shell: bash
         run: |
-          echo "$QA_ENV_FILE" > .env
-          echo ${GITHUB_REF##*/}
-          cat .env
+          echo "$DEMO_ENV_FILE" > .env
+
+      - name: Build
+        run: env-cmd -f .env yarn build
