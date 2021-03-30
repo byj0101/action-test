@@ -3,6 +3,7 @@ on:
   push: # release/* Branch에 push 이벤트가 일어났을 때 실행
     branches:
       - release/*
+      - master
 
 jobs:
   build-and-deploy:
@@ -11,14 +12,6 @@ jobs:
     steps:
       - name: Checkout Branch
         uses: actions/checkout@v2 # 현재 repository 소스 받아오기
-
-      - name: branch check if
-        run: |
-          if [ "${{ secrets.TEST.name }}" == 1 ]; then
-            echo "matching"
-          else
-            echo "not matching!"
-          fi
 
       - name: Cache node modules # yarn.lock의 변경을 기준으로 node modules 캐싱
         uses: actions/cache@v2
@@ -45,6 +38,7 @@ jobs:
         shell: bash
         run: |
           touch .env
+
           if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
             echo REACT_APP_API_URL=1 >> .env
             echo REACT_APP_API_V1_URL=11 >> .env
