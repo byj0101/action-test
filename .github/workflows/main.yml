@@ -38,9 +38,3 @@ jobs:
           echo "$QA_ENV_FILE" > .env
           echo ${GITHUB_REF##*/}
           cat .env
-  build:
-    name: deploy
-    runs-on: ubuntu-latest # Job 가상환경 인스턴스
-    steps: 
-      - name: deploy
-      - run: echo "hi"
