@@ -6,14 +6,11 @@ on:
 
 jobs:
   build:
-    name: deploy
+    name: build
     runs-on: ubuntu-latest # Job 가상환경 인스턴스
     steps:
       - name: Checkout Branch
         uses: actions/checkout@v2 # 현재 repository 소스 받아오기
-
-      - name: Check
-        run: echo "Check!"
 
       - name: Cache node modules # yarn.lock의 변경을 기준으로 node modules 캐싱
         uses: actions/cache@v2
@@ -32,7 +29,7 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: echo "install" && yarn
 
-      - name: create env file
+      - name: Create env file
         env:
           QA_ENV_FILE: ${{ secrets.QA_ENV_FILE }}
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
@@ -41,3 +38,9 @@ jobs:
           echo "$QA_ENV_FILE" > .env
           echo ${GITHUB_REF##*/}
           cat .env
+  build:
+    name: deploy
+    runs-on: ubuntu-latest # Job 가상환경 인스턴스
+    steps: 
+      - name: deploy
+      - run: echo "hi"
