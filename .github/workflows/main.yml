@@ -17,7 +17,7 @@ jobs:
           if [ "${{ secrets.TEST.name }}" == 1 ]; then
             echo "matching"
           else
-            echo "not matching"
+            echo "not matching!"
           fi
 
       - name: Cache node modules # yarn.lock의 변경을 기준으로 node modules 캐싱
