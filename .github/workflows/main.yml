@@ -39,4 +39,4 @@ jobs:
           echo "$DEMO_ENV_FILE" > .env
 
       - name: Build
-        run: env-cmd -f .env yarn build
+        run: ./node_modules/.bin/env-cmd -f .env yarn build
