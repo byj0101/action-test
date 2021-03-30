@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout Branch
         uses: actions/checkout@v2 # 현재 repository 소스 받아오기
-      
+
       - name: Check
         run: echo "Check!"
 
@@ -40,6 +40,3 @@ jobs:
         run: |
           echo "QA ENV FILE : ", $QA_ENV_FILE
           echo "PROD ENV FILE : ", $PROD_ENV_FILE
-
-            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID_PROD }} --paths '/*'
-          fi
