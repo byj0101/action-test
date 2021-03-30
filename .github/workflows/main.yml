@@ -45,7 +45,8 @@ jobs:
           echo "${GITHUB_REF#refs/heads/}"
           echo "${GITHUB_REF#refs/heads/}" == "release/*"
 
-          if [ "${GITHUB_REF#refs/heads/}" == "release/*" ]; then
+
+          if [ "${GITHUB_REF#refs/heads/}" == release/* ]; then
             echo "$DEMO_ENV_FILE" > .env
           fi
 
