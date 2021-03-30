@@ -12,11 +12,13 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@v2 # 현재 repository 소스 받아오기
 
-      - name: branch
+      - name: branch check if
         run: |
-          echo "${GITHUB_REF##*/}"
-          echo "${GITHUB_REF##/}"
-          echo "${GITHUB_REF#refs/heads/}"
+          if[ "${{ secrets.TEST }}" ==  1]; then
+            echo "matching"
+          else
+            echo "not matching"
+          fi
 
       - name: Cache node modules # yarn.lock의 변경을 기준으로 node modules 캐싱
         uses: actions/cache@v2
@@ -42,12 +44,12 @@ jobs:
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
         shell: bash
         run: |
-          echo "${GITHUB_REF#refs/heads/}"
-          echo "${GITHUB_REF#refs/heads/}" == "release/*"
-
-
           if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
-            echo "$DEMO_ENV_FILE" > .env
+            echo "$STAG_ENV_FILE" > .env
+          fi
+
+          if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
+            echo "$PROD_ENV_FILE" > .env
           fi
 
       - name: Build
