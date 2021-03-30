@@ -37,11 +37,6 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: Create env files
-        id: dotenv
-        uses: ./.github/actions/dotenv-action
-        path: ./github/workflows/variables/.env.stag
-
       - name: Create env file
         env:
           STAG_ENV_FILE: ${{ secrets.STAG_ENV_FILE }}
@@ -49,15 +44,32 @@ jobs:
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
         shell: bash
         run: |
+          touch .env
           if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
-            echo "$STAG_ENV_FILE" > .env
+            echo REACT_APP_API_URL=1 >> .env
+            echo REACT_APP_API_V1_URL=11 >> .env
+            echo REACT_APP_PEOPLE_URL=21 >> .env
+            echo REACT_APP_ACCOUNT_URL=31 >> .env
+            echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=41 >> .env
+            echo REACT_APP_PERFORMANCE_PLUS_URL=51 >> .env
+            echo REACT_APP_PERFORMANCE_PLUS_API_URL=61 >> .env
+            echo SENTRY_ENVIRONMENT=71 >> .env
+            echo SENTRY_DSN=81 >> .env
           fi
 
           if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
-            echo "$PROD_ENV_FILE" > .env
+            echo REACT_APP_API_URL=101 >> .env
+            echo REACT_APP_API_V1_URL=201 >> .env
+            echo REACT_APP_PEOPLE_URL=301 >> .env
+            echo REACT_APP_ACCOUNT_URL=401 >> .env
+            echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=501 >> .env
+            echo REACT_APP_PERFORMANCE_PLUS_URL=601 >> .env
+            echo REACT_APP_PERFORMANCE_PLUS_API_URL=701 >> .env
+            echo SENTRY_ENVIRONMENT=801 >> .env
+            echo SENTRY_DSN=901 >> .env
           fi
 
-          echo "${steps.dotenv.outputs}"
+          cat .env
 
       - name: Build
         run: ./node_modules/.bin/env-cmd -f .env yarn build
