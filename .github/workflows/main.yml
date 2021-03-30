@@ -42,6 +42,9 @@ jobs:
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
         shell: bash
         run: |
+          echo "${GITHUB_REF#refs/heads/}"
+          echo "${GITHUB_REF#refs/heads/}" == "release/*"
+
           if [ "${GITHUB_REF#refs/heads/}" == "release/*" ]; then
             echo "$DEMO_ENV_FILE" > .env
           fi
