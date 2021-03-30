@@ -14,7 +14,7 @@ jobs:
 
       - name: branch check if
         run: |
-          if [ "${{ secrets.TEST }}" == 1]; then
+          if [ "${{ secrets.TEST }}" == 1 ]; then
             echo "matching"
           else
             echo "not matching"
