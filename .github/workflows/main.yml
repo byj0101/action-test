@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           if [ "${GITHUB_REF#refs/heads/}" == "release/*" ]; then
-            echo "11"
+            echo "$DEMO_ENV_FILE" > .env
           fi
 
       - name: Build
