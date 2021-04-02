@@ -2,13 +2,9 @@
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
-
-echo $ENVIRONMENT_VARIABLE_NAME
-
-
 touch .env
 
-if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
+if [[ "$BRANCH" == release/* ]]; then
   echo REACT_APP_API_URL=1 >> .env
   echo REACT_APP_API_V1_URL=11 >> .env
   echo REACT_APP_PEOPLE_URL=21 >> .env
@@ -20,7 +16,7 @@ if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
   echo SENTRY_DSN=81 >> .env
 fi
 
-if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
+if [ "$BRANCH" == "master" ]; then
   echo REACT_APP_API_URL=101 >> .env
   echo REACT_APP_API_V1_URL=201 >> .env
   echo REACT_APP_PEOPLE_URL=301 >> .env
@@ -32,7 +28,7 @@ if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
   echo SENTRY_DSN=901 >> .env
 fi
 
-if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
+if [ "$BRANCH" == "demo" ]; then
   echo REACT_APP_API_URL=1222201 >> .env
   echo REACT_APP_API_V1_URL=2222201 >> .env
   echo REACT_APP_PEOPLE_URL=3222201 >> .env
