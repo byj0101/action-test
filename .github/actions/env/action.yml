@@ -1,7 +1,7 @@
 - name: Setup env
   description: add
   runs:
-  using: "composite"
-  steps:
-    - run: ./script.sh
-      shell: bash
+    using: "composite"
+    steps:
+      - run: ./script.sh
+        shell: bash
