@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-deploy:
     name: build & deploy
-    runs-on: ubuntu-latest # Job 가상환경 인스턴스
+    runs-on: ubuntu-18.04 # Job 가상환경 인스턴스
     steps:
       - name: Checkout Branch
         uses: actions/checkout@v2 # 현재 repository 소스 받아오기
