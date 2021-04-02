@@ -32,7 +32,10 @@ jobs:
         run: yarn
 
       - name: Create env file
+        shell: bash
         run: sh ./.github/workflows/scripts/env.sh
+        env:
+          ENVIRONMENT_VARIABLE_NAME: ${GITHUB_REF#refs/heads/}
 
       # - name: Build
       #   run: ./node_modules/.bin/env-cmd -f .env yarn build
