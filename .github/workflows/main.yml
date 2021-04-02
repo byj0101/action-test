@@ -1,8 +1,9 @@
 name: Deployment # Workflow 이름
 on:
-  push: # release/* Branch에 push 이벤트가 일어났을 때 실행
+  push: # release/*, demo, master Branch에 push 이벤트가 일어났을 때 실행
     branches:
       - release/*
+      - demo
       - master
 
 jobs:
@@ -17,12 +18,12 @@ jobs:
         uses: actions/cache@v2
         id: node-cache
         env:
-          cache-name: cache-node-modules
+          branch-name: ${GITHUB_REF#refs/heads/}
         with:
           path: node_modules
-          key: ${{ runner.OS }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.OS }}-build-${{ env.branch-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-${{ env.branch-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
 
@@ -31,39 +32,7 @@ jobs:
         run: yarn
 
       - name: Create env file
-        env:
-          STAG_ENV_FILE: ${{ secrets.STAG_ENV_FILE }}
-          DEMO_ENV_FILE: ${{ secrets.DEMO_ENV_FILE }}
-          PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
-        shell: bash
-        run: |
-          touch .env
-
-          if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
-            echo REACT_APP_API_URL=1 >> .env
-            echo REACT_APP_API_V1_URL=11 >> .env
-            echo REACT_APP_PEOPLE_URL=21 >> .env
-            echo REACT_APP_ACCOUNT_URL=31 >> .env
-            echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=41 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_URL=51 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_API_URL=61 >> .env
-            echo SENTRY_ENVIRONMENT=71 >> .env
-            echo SENTRY_DSN=81 >> .env
-          fi
-
-          if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
-            echo REACT_APP_API_URL=101 >> .env
-            echo REACT_APP_API_V1_URL=201 >> .env
-            echo REACT_APP_PEOPLE_URL=301 >> .env
-            echo REACT_APP_ACCOUNT_URL=401 >> .env
-            echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=501 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_URL=601 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_API_URL=701 >> .env
-            echo SENTRY_ENVIRONMENT=801 >> .env
-            echo SENTRY_DSN=901 >> .env
-          fi
-
-          cat .env
+        uses: ./.github/actions/setup-env
 
       - name: Build
         run: ./node_modules/.bin/env-cmd -f .env yarn build
