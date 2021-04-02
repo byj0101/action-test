@@ -34,7 +34,7 @@ jobs:
           ENVIRONMENT_VARIABLE_NAME: "${ GITHUB_REF#refs/heads/ }"
           ENVIRONMENT_VARIABLE_NAMEs: 12
         run: |
-          echo $GITHUB_REF#refs/heads/
+          echo ${GITHUB_REF#refs/heads/}
           sh ./.github/workflows/scripts/env.sh
 
       # - name: Build
