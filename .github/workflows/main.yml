@@ -32,84 +32,41 @@ jobs:
         run: yarn
 
       - name: Create env file
-        shell: bash
-        run: |
-          touch .env
+        uses: ./.github/actions/env
 
-          if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
-            echo REACT_APP_API_URL=1 >> .env
-            echo REACT_APP_API_V1_URL=11 >> .env
-            echo REACT_APP_PEOPLE_URL=21 >> .env
-            echo REACT_APP_ACCOUNT_URL=31 >> .env
-            echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=41 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_URL=51 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_API_URL=61 >> .env
-            echo SENTRY_ENVIRONMENT=71 >> .env
-            echo SENTRY_DSN=81 >> .env
-            echo REACT_APP_STATUS=release >> .env
-          fi
+      # - name: Build
+      #   run: ./node_modules/.bin/env-cmd -f .env yarn build
 
-          if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
-            echo REACT_APP_API_URL=101 >> .env
-            echo REACT_APP_API_V1_URL=201 >> .env
-            echo REACT_APP_PEOPLE_URL=301 >> .env
-            echo REACT_APP_ACCOUNT_URL=401 >> .env
-            echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=501 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_URL=601 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_API_URL=701 >> .env
-            echo SENTRY_ENVIRONMENT=801 >> .env
-            echo SENTRY_DSN=901 >> .env
-            echo REACT_APP_STATUS=master >> .env
-          fi
+      # - name: Deploy
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
+      #       aws s3 sync ./build s3://yjback
+      #     fi
 
-          if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
-            echo REACT_APP_API_URL=1222201 >> .env
-            echo REACT_APP_API_V1_URL=2222201 >> .env
-            echo REACT_APP_PEOPLE_URL=3222201 >> .env
-            echo REACT_APP_ACCOUNT_URL=4222201 >> .env
-            echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=522201 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_URL=6222201 >> .env
-            echo REACT_APP_PERFORMANCE_PLUS_API_URL=72222201 >> .env
-            echo SENTRY_ENVIRONMENT=82222201 >> .env
-            echo SENTRY_DSN=922201 >> .env
-            echo REACT_APP_STATUS=demo >> .env
-          fi
+      #     if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
+      #       aws s3 sync ./build s3://yjback
+      #     fi
 
-          cat .env
+      #     if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
+      #       aws s3 sync ./build s3://yjback
+      #     fi
 
-      - name: Build
-        run: ./node_modules/.bin/env-cmd -f .env yarn build
+      # - name: CloudFront Invalidation
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
+      #       aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
+      #     fi
 
-      - name: Deploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
-            aws s3 sync ./build s3://yjback
-          fi
+      #     if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
+      #       aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
+      #     fi
 
-          if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
-            aws s3 sync ./build s3://yjback
-          fi
-
-          if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
-            aws s3 sync ./build s3://yjback
-          fi
-
-      - name: CloudFront Invalidation
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
-            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
-          fi
-
-          if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
-            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
-          fi
-
-          if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
-            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
-          fi
+      #     if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
+      #       aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
+      #     fi
