@@ -2,10 +2,8 @@
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
-echo $BRANCH
-echo "111"
+
 echo $ENVIRONMENT_VARIABLE_NAME
-echo $1
 
 
 touch .env
