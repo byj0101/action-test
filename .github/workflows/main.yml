@@ -35,6 +35,7 @@ jobs:
         shell: bash
         env:
           ENVIRONMENT_VARIABLE_NAME: "${GITHUB_REF#refs/heads/}"
+          ENVIRONMENT_VARIABLE_NAMEs: 12
         run: sh ./.github/workflows/scripts/env.sh
 
       # - name: Build
