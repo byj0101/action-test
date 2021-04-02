@@ -32,7 +32,7 @@ jobs:
         run: yarn
 
       - name: Create env file
-        run: sh ./scripts/env.sh
+        run: sh ./.github/workflows/scripts/env.sh
 
       # - name: Build
       #   run: ./node_modules/.bin/env-cmd -f .env yarn build
