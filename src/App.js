@@ -17,6 +17,7 @@ function App() {
         >
           Learn React test
         </a>
+        <p>{`env is : ${process.env.REACT_APP_STATUS}`}</p>
       </header>
     </div>
   );

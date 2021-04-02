@@ -46,6 +46,7 @@ jobs:
             echo REACT_APP_PERFORMANCE_PLUS_API_URL=61 >> .env
             echo SENTRY_ENVIRONMENT=71 >> .env
             echo SENTRY_DSN=81 >> .env
+            echo REACT_APP_STATUS=release >> .env
           fi
 
           if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
@@ -58,6 +59,7 @@ jobs:
             echo REACT_APP_PERFORMANCE_PLUS_API_URL=701 >> .env
             echo SENTRY_ENVIRONMENT=801 >> .env
             echo SENTRY_DSN=901 >> .env
+            echo REACT_APP_STATUS=master >> .env
           fi
 
           if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
@@ -70,9 +72,34 @@ jobs:
             echo REACT_APP_PERFORMANCE_PLUS_API_URL=72222201 >> .env
             echo SENTRY_ENVIRONMENT=82222201 >> .env
             echo SENTRY_DSN=922201 >> .env
+            echo REACT_APP_STATUS=demo >> .env
           fi
 
           cat .env
 
       - name: Build
         run: ./node_modules/.bin/env-cmd -f .env yarn build
+
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          if [ "${GITHUB_REF##*/}" == "master" ]; then
+            aws s3 sync ./build s3://yjback
+          fi
+          if [ "${GITHUB_REF##*/}" == "production" ]; then
+            aws s3 sync ./build s3://yjback
+          fi
+
+      - name: CloudFront Invalidation
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          if [ "${GITHUB_REF##*/}" == "master" ]; then
+            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
+          fi
+          if [ "${GITHUB_REF##*/}" == "production" ]; then
+            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths '/*'
+          fi
