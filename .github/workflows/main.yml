@@ -21,7 +21,7 @@ jobs:
           branch-name: "$GITHUB_REF"
         with:
           path: node_modules
-          key: ${{ runner.OS }}-build-${{ GITHUB_REF }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.OS }}-build-$GITHUB_REF-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.OS }}-build-${{ env.branch-name }}-
             ${{ runner.OS }}-build-
