@@ -23,7 +23,7 @@ jobs:
         id: node-cache
         with:
           path: node_modules
-          key: ${{ runner.OS }}-build-${GIT_BRANCH}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.OS }}-build-${{ GIT_BRANCH }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
