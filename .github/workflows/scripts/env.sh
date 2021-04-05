@@ -1,4 +1,6 @@
-#!/bin/bash 
+#!/bin/sh 
+
+echo "git branch : ${GIT_BRANCH}"
 
 if [[ ${GIT_BRANCH} == "release/"* ]]; then
   echo "release"
