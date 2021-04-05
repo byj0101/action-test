@@ -16,7 +16,6 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "GIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
           echo "GIT_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Cache node modules # yarn.lock의 변경을 기준으로 node modules 캐싱
@@ -36,12 +35,9 @@ jobs:
       - name: Create env file
         shell: bash
         env:
-          ENVIRONMENT_VARIABLE_NAME: "${GITHUB_REF#refs/heads/}"
-          ENVIRONMENT_VARIABLE_NAMEs: 12
+          ENVIRONMENT_VARIABLE_NAME: "${GIT_BRANCH}"
         run: |
-          echo "GIT_SHA=${GIT_SHA}"
           echo "GIT_BRANCH=${GIT_BRANCH}"
-          echo ${GITHUB_REF#refs/heads/}
           sh ./.github/workflows/scripts/env.sh
 
       # - name: Build

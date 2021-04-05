@@ -2,6 +2,10 @@
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
+echo "11111"
+echo $GIT_BRANCH
+
+
 touch .env
 
 if [[ $BRANCH == release/* ]]; then
