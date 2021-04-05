@@ -34,10 +34,8 @@ jobs:
 
       - name: Create env file
         shell: bash
-        env:
-          ENVIRONMENT_VARIABLE_NAME: "${GIT_BRANCH}"
         run: |
-          echo "GIT_BRANCH=${GIT_BRANCH}"
+          touch .env
           sh ./.github/workflows/scripts/env.sh
 
       # - name: Build
