@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           touch .env
-          sh ./.github/workflows/scripts/env.sh
+          bash ./.github/workflows/scripts/env.sh
 
       # - name: Build
       #   run: ./node_modules/.bin/env-cmd -f .env yarn build
