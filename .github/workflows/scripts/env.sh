@@ -4,6 +4,9 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
 echo "11111"
 echo $GIT_BRANCH
+echo "222222"
+echo "git branch :$GIT_BRANCH"
+
 
 
 touch .env
