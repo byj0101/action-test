@@ -16,7 +16,7 @@ touch .env
 #   echo SENTRY_DSN=81 >> .env
 # fi
 
-if [ "$BRANCH" == "master" ]; then
+if [ $BRANCH == "master" ]; then
   echo REACT_APP_API_URL=101 >> .env
   echo REACT_APP_API_V1_URL=201 >> .env
   echo REACT_APP_PEOPLE_URL=301 >> .env
@@ -28,7 +28,7 @@ if [ "$BRANCH" == "master" ]; then
   echo SENTRY_DSN=901 >> .env
 fi
 
-if [ "$BRANCH" == "demo" ]; then
+if [ $BRANCH == "demo" ]; then
   echo REACT_APP_API_URL=1222201 >> .env
   echo REACT_APP_API_V1_URL=2222201 >> .env
   echo REACT_APP_PEOPLE_URL=3222201 >> .env
