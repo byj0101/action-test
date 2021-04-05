@@ -4,17 +4,17 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
 touch .env
 
-if [[ "$BRANCH" == release/* ]]; then
-  echo REACT_APP_API_URL=1 >> .env
-  echo REACT_APP_API_V1_URL=11 >> .env
-  echo REACT_APP_PEOPLE_URL=21 >> .env
-  echo REACT_APP_ACCOUNT_URL=31 >> .env
-  echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=41 >> .env
-  echo REACT_APP_PERFORMANCE_PLUS_URL=51 >> .env
-  echo REACT_APP_PERFORMANCE_PLUS_API_URL=61 >> .env
-  echo SENTRY_ENVIRONMENT=71 >> .env
-  echo SENTRY_DSN=81 >> .env
-fi
+# if [[ "$BRANCH" == release/* ]]; then
+#   echo REACT_APP_API_URL=1 >> .env
+#   echo REACT_APP_API_V1_URL=11 >> .env
+#   echo REACT_APP_PEOPLE_URL=21 >> .env
+#   echo REACT_APP_ACCOUNT_URL=31 >> .env
+#   echo REACT_APP_ACCOUNT_COOKIE_DOMAIN=41 >> .env
+#   echo REACT_APP_PERFORMANCE_PLUS_URL=51 >> .env
+#   echo REACT_APP_PERFORMANCE_PLUS_API_URL=61 >> .env
+#   echo SENTRY_ENVIRONMENT=71 >> .env
+#   echo SENTRY_DSN=81 >> .env
+# fi
 
 if [ "$BRANCH" == "master" ]; then
   echo REACT_APP_API_URL=101 >> .env
