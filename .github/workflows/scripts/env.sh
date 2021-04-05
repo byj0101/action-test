@@ -13,6 +13,7 @@ if [[ ${GIT_BRANCH} == "release/"* ]]; then
   echo REACT_APP_PERFORMANCE_PLUS_API_URL=61 >> .env
   echo SENTRY_ENVIRONMENT=71 >> .env
   echo SENTRY_DSN=81 >> .env
+  echo REACT_APP_STATUS=release >> .env
 fi
 
 if [[ ${GIT_BRANCH} == "master" ]]; then
@@ -26,6 +27,7 @@ if [[ ${GIT_BRANCH} == "master" ]]; then
   echo REACT_APP_PERFORMANCE_PLUS_API_URL=701 >> .env
   echo SENTRY_ENVIRONMENT=801 >> .env
   echo SENTRY_DSN=901 >> .env
+  echo REACT_APP_STATUS=master >> .env
 fi
 
 if [[ ${GIT_BRANCH} == "demo" ]]; then
@@ -39,6 +41,7 @@ if [[ ${GIT_BRANCH} == "demo" ]]; then
   echo REACT_APP_PERFORMANCE_PLUS_API_URL=72222201 >> .env
   echo SENTRY_ENVIRONMENT=82222201 >> .env
   echo SENTRY_DSN=922201 >> .env
+  echo REACT_APP_STATUS=demo >> .env
 fi
 
 cat .env
