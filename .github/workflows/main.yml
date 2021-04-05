@@ -48,8 +48,8 @@ jobs:
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
         shell: bash
         run: |
-          touch .env
           bash ./.github/workflows/scripts/deploy.sh
+
 
         # run: |
         #   if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
