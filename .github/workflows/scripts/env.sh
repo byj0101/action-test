@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-if [[ $GIT_BRANCH == release/* ]]; then
+if [[ ${GIT_BRANCH} == "release/"* ]]; then
   echo "release"
   echo REACT_APP_API_URL=1 >> .env
   echo REACT_APP_API_V1_URL=11 >> .env
@@ -13,7 +13,7 @@ if [[ $GIT_BRANCH == release/* ]]; then
   echo SENTRY_DSN=81 >> .env
 fi
 
-if [ $GIT_BRANCH == "master" ]; then
+if [[ ${GIT_BRANCH} == "master" ]]; then
   echo "master"
   echo REACT_APP_API_URL=101 >> .env
   echo REACT_APP_API_V1_URL=201 >> .env
@@ -26,7 +26,7 @@ if [ $GIT_BRANCH == "master" ]; then
   echo SENTRY_DSN=901 >> .env
 fi
 
-if [ $GIT_BRANCH == "demo" ]; then
+if [[ ${GIT_BRANCH} == "demo" ]]; then
   echo "demo"
   echo REACT_APP_API_URL=1222201 >> .env
   echo REACT_APP_API_V1_URL=2222201 >> .env
