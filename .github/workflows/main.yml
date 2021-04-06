@@ -74,9 +74,17 @@ jobs:
                 title: "CI Result",
                 text: '${{ job.status }}' === 'success' ? 'Succeed' : '${{ job.status }}' === 'failure' ? 'Failed' : 'Cancelled',
                 fields: [{
-                    title: "Workflow",
-                    value: ${process.env.AS_WORKFLOW},
-                    short: true
+                  "title": "lower case",
+                  "short": true
+                },
+                {
+                  "title": "reverse",
+                  "short": true
+                },
+                {
+                  "title": "long title 1",
+                  "value": "long value 1",
+                  "short": false
                 }]
               }]
             }
