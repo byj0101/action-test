@@ -72,7 +72,14 @@ jobs:
                 author_name: "deploy-bot",
                 color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
                 title: "CI Result",
-                text: '${{ job.status }}' === 'success' ? 'Succeed' : '${{ job.status }}' === 'failure' ? 'failed' : 'cancelled',
+                text: '${{ job.status }}' === 'success' ? 'Succeed' : '${{ job.status }}' === 'failure' ? 'Failed' : 'Cancelled',
+                fields: [
+                  {
+                    title: "Workflow",
+                    value: ${process.env.AS_WORKFLOW},
+                    short: true
+                  }
+                ]
               }]
             }
         env:
