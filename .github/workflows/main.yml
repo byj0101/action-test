@@ -50,21 +50,6 @@ jobs:
         run: |
           bash ./.github/workflows/scripts/deploy.sh
 
-
-        # run: |
-        #   if [[ "${GITHUB_REF#refs/heads/}" == release/* ]]; then
-        #     aws s3 sync ./build s3://${{ secrets.BUCKET_NAME }}
-        #   fi
-
-
-        #   if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
-        #     aws s3 sync ./build s3://${{ secrets.BUCKET_NAME }}
-        #   fi
-
-
-        #   if [ "${GITHUB_REF#refs/heads/}" == "demo" ]; then
-        #     aws s3 sync ./build s3://${{ secrets.BUCKET_NAME }}
-        #   fi
       - name: CloudFront Invalidation
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -73,3 +58,45 @@ jobs:
         shell: bash
         run: |
           bash ./.github/workflows/scripts/invalidation.sh
+
+      - name: Slack Notification
+        uses: 8398a7/action-slack@v3
+        with:
+          job_name: build & deploy
+          status: custom
+          fields: workflow,job,commit,repo,ref,author,took
+          custom_payload: |
+            {
+              text: "Deployment",
+              attachments: [{
+                author_name: "deploy-bot",
+                color: "good",
+                title: "CI Result",
+                text: "test",
+                fields: [
+                  {
+                    title: "Workflow",
+                    value: ${process.env.AS_WORKFLOW},
+                    short: true
+                  },
+                  {
+                    title: "Repository",
+                    value: ${process.env.AS_REPO},
+                    short: true
+                  },
+                  {
+                    title: "Branch",
+                    value: ${process.env.AS_REF#refs/heads/},
+                    short: true
+                  },
+                  {
+                    title: "Took",
+                    value: ${process.env.AS_TOOK},
+                    short: true
+                  }
+                ],
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always() # Pick up events even if the job fails or is canceled.
