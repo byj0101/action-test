@@ -94,7 +94,7 @@ jobs:
                     value: ${process.env.AS_TOOK},
                     short: true
                   }
-                ],
+                ]
               }]
             }
         env:
