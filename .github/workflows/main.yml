@@ -75,7 +75,7 @@ jobs:
                 text: '${{ job.status }}' === 'success' ? 'Succeed' : '${{ job.status }}' === 'failure' ? 'Failed' : 'Cancelled',
                 fields: [{
                   title: "Workflow",
-                  value: `${process.env.AS_WORKFLOW}`
+                  value: '${{ process.env.AS_WORKFLOW }}',
                   short: true
                 },
                 {
