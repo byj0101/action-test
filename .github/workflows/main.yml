@@ -79,13 +79,19 @@ jobs:
                   short: true
                 },
                 {
-                  title: "reverse",
+                  title: "Repository",
+                  value: `${process.env.AS_REPO}`,
                   short: true
                 },
                 {
-                  title: "long title 1",
-                  value: "long value 1",
-                  short: false
+                  title: "Branch",
+                  value: `${process.env.AS_REF#refs/heads/}`,
+                  short: true
+                },
+                {
+                  title: "Took",
+                  value: `${process.env.AS_TOOK}`,
+                  short: true
                 }]
               }]
             }
