@@ -85,7 +85,7 @@ jobs:
                 },
                 {
                   title: "Branch",
-                  value: `${process.env.AS_REF#refs/heads/}`,
+                  value: `${process.env.AS_REF}`,
                   short: true
                 },
                 {
