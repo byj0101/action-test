@@ -67,12 +67,12 @@ jobs:
           fields: workflow,job,commit,repo,ref,author,took
           custom_payload: |
             {
-              text: "Deployment",
+              text: "Deployment-theplus-front",
               attachments: [{
                 author_name: "deploy-bot",
                 color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
                 title: "CI Result",
-                text: '${{ job.status }}' === 'success' ? 'Succeeded' : '${{ job.status }}' === 'failure' ? 'failed' : 'cancelled',
+                text: '${{ job.status }}' === 'success' ? 'Succeed' : '${{ job.status }}' === 'failure' ? 'failed' : 'cancelled',
               }]
             }
         env:
