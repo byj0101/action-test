@@ -77,8 +77,7 @@ jobs:
                     title: "Workflow",
                     value: ${process.env.AS_WORKFLOW},
                     short: true
-                  }
-                ]
+                }]
               }]
             }
         env:
